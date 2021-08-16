@@ -1,4 +1,10 @@
+HELP.md
 /target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### VS Code ###
+/.vscode/
+.tern-project
 
 ### STS ###
 .apt_generated
