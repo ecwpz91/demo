@@ -4,6 +4,8 @@
 
 [Sign up for an application programming interface (API) key](https://api.nasa.gov/) to access and use web services available on the Data.gov developer network.
 
+Update the `application.properties` file's `api.key` value once generated, accordingly.
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 
