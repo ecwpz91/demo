@@ -1,4 +1,4 @@
-# Welcome to Mars Rover Photos (MRP), a Image Management Tool
+# Welcome to Mars Rover Photos (MRP), an Image Management Tool
 
 ### Generate API Key
 
