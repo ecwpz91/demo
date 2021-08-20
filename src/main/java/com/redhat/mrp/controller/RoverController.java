@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.redhat.mrp.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.dto.Rover;
-import com.example.demo.model.RoverList;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.redhat.mrp.dto.Rover;
+import com.redhat.mrp.model.RoverList;
 
 @Controller
 @RequestMapping("/")

@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.redhat.mrp.dto;
 
 import java.io.Serializable;
 import java.util.Arrays;

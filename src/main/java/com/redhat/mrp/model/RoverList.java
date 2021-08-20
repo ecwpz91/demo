@@ -1,8 +1,8 @@
-package com.example.demo.model;
+package com.redhat.mrp.model;
 
 import java.util.Arrays;
 
-import com.example.demo.dto.Rover;
+import com.redhat.mrp.dto.Rover;
 
 public class RoverList {
 

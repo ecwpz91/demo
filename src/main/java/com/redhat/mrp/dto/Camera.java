@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.redhat.mrp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
