@@ -10,10 +10,10 @@
 	</parent>
 	<!-- JAR packaging information -->
 	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>mrp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>mrp</name>
+	<description>Mars Rover Photos (MRP), an Image Management Tool</description>
 	<!-- Java version -->
 	<properties>
 		<java.version>11</java.version>
