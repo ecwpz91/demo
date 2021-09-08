@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/part-of: mrp
+  name: mars-rover-photos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mars-rover-photos
+  template:
+    metadata:
+      labels:
+        app: mars-rover-photos
+    spec:
+      containers:
+        - image: quay.io/ecwpz91/mrp:latest
+          imagePullPolicy: Always
+          name: mars-rover-photos
+          ports:
+            - containerPort: 8080
+              protocol: TCP
