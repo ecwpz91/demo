@@ -33,23 +33,6 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                script {
-                    openshift.withCluster() {
-                        openshift.withProject() {
-                            def rm = openshift.selector("dc", appName).rollout().latest()
-                            timeout(5) { 
-                                openshift.selector("dc", appName).related('pods').untilEach(1) {
-                                    return (it.object().status.phase == "Running")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         // You could extend the pipeline by tagging the image,
         // or deploying it to a production environment, etc......
     }
