@@ -11,11 +11,14 @@
 	<!-- JAR packaging information -->
 	<groupId>com.example</groupId>
 	<artifactId>mrp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
 	<name>mrp</name>
 	<description>Mars Rover Photos (MRP), an Image Management Tool</description>
 	<!-- Java version -->
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
 	</properties>
 	<!-- Starter dependencies -->
