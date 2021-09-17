@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class RoverList {
 
-  private Rover[] rovers;
+	private Rover[] rovers;
 
 	public Rover[] getRovers() {
 		return rovers;
@@ -18,5 +18,5 @@ public class RoverList {
 	public String toString() {
 		return Arrays.toString(rovers);
 	}
-  
+
 }
