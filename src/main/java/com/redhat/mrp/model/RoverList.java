@@ -2,8 +2,6 @@ package com.redhat.mrp.model;
 
 import java.util.Arrays;
 
-import com.redhat.mrp.dto.Rover;
-
 public class RoverList {
 
   private Rover[] rovers;
