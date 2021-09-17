@@ -107,8 +107,7 @@ public class Rover implements Serializable {
 	public String toString() {
 		return "{id=" + id + ",name=" + name + ",landingDate=" + landingDate
 				+ ",launchDate=" + launchDate + ",status=" + status + ",maxSol="
-				+ maxSol + ",totalPhotos=" + totalPhotos 
-        + ",cameras=" + Arrays.toString(cameras) + "}";
+				+ maxSol + ",totalPhotos=" + totalPhotos + ",cameras=" + Arrays.toString(cameras) + "}";
 	}
 
 }
