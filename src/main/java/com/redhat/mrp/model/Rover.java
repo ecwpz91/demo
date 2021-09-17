@@ -1,13 +1,10 @@
 package com.redhat.mrp.model;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Rover implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public class Rover {
 
   private int id;
   private String name;
@@ -21,13 +18,13 @@ public class Rover implements Serializable {
   private String status;
 
   @JsonProperty("max_sol")
-  private String maxSol;
+  private int maxSol;
 
   @JsonProperty("max_date")
   private String maxDate;
 
   @JsonProperty("total_photos")
-  private String totalPhotos;
+  private int totalPhotos;
 
   private Camera[] cameras;
 
@@ -71,11 +68,11 @@ public class Rover implements Serializable {
     this.status = status;
   }
 
-  public String getMaxSol() {
+  public int getMaxSol() {
     return maxSol;
   }
 
-  public void setMaxSol(String maxSol) {
+  public void setMaxSol(int maxSol) {
     this.maxSol = maxSol;
   }
 
@@ -87,27 +84,26 @@ public class Rover implements Serializable {
     this.maxDate = maxDate;
   }
 
-  public String getTotalPhotos() {
+  public int getTotalPhotos() {
     return totalPhotos;
   }
 
-  public void setTotalPhotos(String totalPhotos) {
+  public void setTotalPhotos(int totalPhotos) {
     this.totalPhotos = totalPhotos;
   }
 
-	public Camera[] getCameras() {
-		return cameras;
-	}
+  public Camera[] getCameras() {
+    return cameras;
+  }
 
-	public void setCameras(Camera[] cameras) {
-		this.cameras = cameras;
-	}
+  public void setCameras(Camera[] cameras) {
+    this.cameras = cameras;
+  }
 
   @Override
-	public String toString() {
-		return "{id=" + id + ",name=" + name + ",landingDate=" + landingDate
-				+ ",launchDate=" + launchDate + ",status=" + status + ",maxSol="
-				+ maxSol + ",totalPhotos=" + totalPhotos + ",cameras=" + Arrays.toString(cameras) + "}";
-	}
+  public String toString() {
+    return "{id=" + id + ",name=" + name + ",landingDate=" + landingDate + ",launchDate=" + launchDate + ",status="
+        + status + ",maxSol=" + maxSol + ",totalPhotos=" + totalPhotos + ",cameras=" + Arrays.toString(cameras) + "}";
+  }
 
 }
