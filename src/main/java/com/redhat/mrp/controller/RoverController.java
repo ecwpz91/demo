@@ -1,10 +1,6 @@
 package com.redhat.mrp.controller;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redhat.mrp.model.Rover;
 import com.redhat.mrp.model.RoverList;
@@ -28,11 +24,8 @@ import com.redhat.mrp.model.RoverList;
 @RequestMapping("/")
 public class RoverController {
 
-	@Autowired
-	RestTemplate restTemplate;
-
-	@Autowired
-	private ObjectMapper objectMapper;
+	private final RestTemplate restTemplate;
+	private final ObjectMapper objectMapper;
 
 	private static final String URI = "https://api.nasa.gov/mars-photos/api/v1/rovers";
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoverController.class);
@@ -40,69 +33,40 @@ public class RoverController {
 	@Value("${api.key}")
 	private String apiKey;
 
-	private HttpEntity<String> entity;
-	private UriComponentsBuilder builder;
-	private String uriString;
-	private Rover rover;
-	private RoverList rovers;
-	private List<Rover> roverList;
+	public RoverController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+		this.restTemplate = restTemplate;
+		this.objectMapper = objectMapper;
+	}
 
-	@GetMapping(value = "/rovers")
+	@GetMapping("/rovers")
 	public String findAllRovers(ModelMap model) {
-		builder = UriComponentsBuilder.fromHttpUrl(URI).queryParam("api_key", apiKey);
-		uriString = builder.toUriString();
-		LOGGER.debug("Fetching rovers from URI :: {}", uriString);
-		ResponseEntity<String> result = restTemplate.exchange(uriString, HttpMethod.GET, entity, String.class);
+		String uriString = UriComponentsBuilder.fromHttpUrl(URI).queryParam("api_key", this.apiKey).toUriString();
+		Optional<RoverList> result = Optional.ofNullable(this.restTemplate.getForObject(uriString, RoverList.class));
+		List<Rover> rovers = result
+			.map(RoverList::getRovers)
+			.map(List::of)
+			.orElseGet(ArrayList::new);
 
-		if (result != null) {
-			LOGGER.debug("Response body :: {}", result.getBody());
-			try {
-				rovers = objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
-						.readValue(result.getBody(), RoverList.class);
-				LOGGER.debug("RoverArray :: {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rovers));
-				roverList = convertArrayToList(rovers.getRovers());
-				LOGGER.debug("RoverList :: {}", roverList);
-			} catch (Exception e) {
-				LOGGER.debug("Exception :: {}", e);
-			}
-		}
-
-		model.put("rovers", roverList);
+		model.put("rovers", rovers);
 		return "rovers";
 	}
 
 	@GetMapping("/rover/{name}")
 	public String findRoverByName(ModelMap model, @PathVariable String name) {
-		builder = UriComponentsBuilder.fromHttpUrl(URI + "/" + name).queryParam("api_key", apiKey);
-		uriString = builder.toUriString();
-		LOGGER.debug("Fetching rovers from URI :: {}", uriString);
-		ResponseEntity<String> result = restTemplate.exchange(uriString, HttpMethod.GET, entity, String.class);
+		String uriString = UriComponentsBuilder.fromHttpUrl(URI + "/" + name).queryParam("api_key", apiKey).toUriString();
+		Rover result = this.restTemplate.getForObject(uriString, Rover.class);
 
 		if (result != null) {
-			LOGGER.debug("Response body :: {}", result.getBody());
+			LOGGER.debug("Response body :: {}", result);
 			try {
-				rover = objectMapper.readValue(result.getBody(), Rover.class);
-				LOGGER.debug("Rover :: {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rover));
+				LOGGER.debug("Rover :: {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result));
 			} catch (Exception e) {
 				LOGGER.debug("Exception :: {}", e);
 			}
 		}
-		
-    // rover = restTemplate.getForObject(uriString, Rover.class);
-		// LOGGER.debug("Rover :: {}", rover);
 
-		model.put("rover", rover);
+		model.put("rover", result);
 		return "rover";
-	}
-
-	private static <T> List<T> convertArrayToList(T array[]) {
-		List<T> list = new ArrayList<>();
-
-		for (T t : array) {
-			list.add(t);
-		}
-
-		return list;
 	}
 
 }
