@@ -3,6 +3,7 @@ package com.redhat.mrp.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Camera {
+
 	private long id;
 	private String name;
 
@@ -46,8 +47,7 @@ public class Camera {
 
 	@Override
 	public String toString() {
-		return "{id=" + id + ",name=" + name + ",roverId=" + roverId
-				+ ",fullName=" + fullName + "}";
+		return "{id=" + id + ",name=" + name + ",roverId=" + roverId + ",fullName=" + fullName + "}";
 	}
-  
+
 }
