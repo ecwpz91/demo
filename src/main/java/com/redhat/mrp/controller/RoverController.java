@@ -15,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.http.HttpHeaders;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -87,12 +86,12 @@ public class RoverController {
 	public String getRandomPhoto(ModelMap model, @PathVariable String name) {
 
 		// [TODO]: Get random date between landing and max
-		// LocalDate from = LocalDate.of(2016, 1, 1);
-		// LocalDate to = LocalDate.of(2017, 1, 1);
-		// long days = from.until(to, ChronoUnit.DAYS);
-		// long randomDays = ThreadLocalRandom.current().nextLong(days + 1);
-		// LocalDate randomDate = from.plusDays(randomDays);
-		// LOGGER.debug(randomDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+		LocalDate from = LocalDate.of(2016, 1, 1);
+		LocalDate to = LocalDate.of(2017, 1, 1);
+		long days = from.until(to, ChronoUnit.DAYS);
+		long randomDays = ThreadLocalRandom.current().nextLong(days + 1);
+		LocalDate randomDate = from.plusDays(randomDays);
+		LOGGER.debug(randomDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
 		photoList = getAllPhotos(DATE, name);
 		Photo randomPhoto = null;
