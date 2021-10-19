@@ -39,9 +39,9 @@ public class RoverController {
 	private final ObjectMapper objectMapper;
 
 	private static final String URI = "https://api.nasa.gov/mars-photos/api/v1/rovers";
+	private static final String API_KEY = "api_key";
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoverController.class);
 	private static final String FHAZ = "FHAZ";
-	// private static final String DATE = "2015-6-3";
 	private static final Random RANDOM = new Random();
 
 	private HttpEntity<String> entity;
@@ -57,7 +57,7 @@ public class RoverController {
 
 	@GetMapping("/rovers")
 	public String findAllRovers(ModelMap model) {
-		String uriString = UriComponentsBuilder.fromHttpUrl(URI).queryParam("api_key", this.apiKey).toUriString();
+		String uriString = UriComponentsBuilder.fromHttpUrl(URI).queryParam(API_KEY, this.apiKey).toUriString();
 		Optional<RoverList> result = Optional.ofNullable(this.restTemplate.getForObject(uriString, RoverList.class));
 		List<Rover> rovers = result.map(RoverList::getRovers).map(List::of).orElseGet(ArrayList::new);
 
@@ -67,7 +67,7 @@ public class RoverController {
 
 	@GetMapping("/rover/{name}")
 	public String findRoverByName(ModelMap model, @PathVariable String name) {
-		String uriString = UriComponentsBuilder.fromHttpUrl(URI + "/" + name).queryParam("api_key", apiKey).toUriString();
+		String uriString = UriComponentsBuilder.fromHttpUrl(URI + "/" + name).queryParam(API_KEY, apiKey).toUriString();
 		Rover result = this.restTemplate.getForObject(uriString, Rover.class);
 
 		if (result != null) {
@@ -111,7 +111,7 @@ public class RoverController {
 
 	public PhotoList getAllPhotos(String date, String name) {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URI + "/" + name + "/photos")
-				.queryParam("earth_date", date).queryParam("camera", FHAZ).queryParam("api_key", apiKey);
+				.queryParam("earth_date", date).queryParam("camera", FHAZ).queryParam(API_KEY, apiKey);
 		String uriString = builder.toUriString();
 		LOGGER.debug("Fetching photos from URI :: {}", uriString);
 		ResponseEntity<String> result = restTemplate.exchange(uriString, HttpMethod.GET, entity, String.class);
