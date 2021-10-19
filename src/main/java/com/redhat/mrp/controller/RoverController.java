@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -40,7 +41,7 @@ public class RoverController {
 	private static final String URI = "https://api.nasa.gov/mars-photos/api/v1/rovers";
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoverController.class);
 	private static final String FHAZ = "FHAZ";
-	private static final String DATE = "2015-6-3";
+	// private static final String DATE = "2015-6-3";
 	private static final Random RANDOM = new Random();
 
 	private HttpEntity<String> entity;
@@ -83,24 +84,22 @@ public class RoverController {
 	}
 
 	@GetMapping("/photo/{name}")
-	public String getRandomPhoto(ModelMap model, @PathVariable String name) {
-
-		// [TODO]: Get random date between landing and max
-		LocalDate from = LocalDate.of(2016, 1, 1);
-		LocalDate to = LocalDate.of(2017, 1, 1);
+	public String getRandomPhoto(ModelMap model, @PathVariable String name, @RequestParam(value = "landingDate", required = false) String landingDate, @RequestParam(value = "maxDate", required = false) String maxDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+		LocalDate from = LocalDate.parse(landingDate, formatter);
+		LocalDate to = LocalDate.parse(maxDate, formatter);
 		long days = from.until(to, ChronoUnit.DAYS);
 		long randomDays = ThreadLocalRandom.current().nextLong(days + 1);
 		LocalDate randomDate = from.plusDays(randomDays);
-		LOGGER.debug(randomDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
-		photoList = getAllPhotos(DATE, name);
+		photoList = getAllPhotos(randomDate.toString(), name);
 		Photo randomPhoto = null;
 
 		if (photoList != null && photoList.getPhotos() != null) {
 			Photo[] photos = photoList.getPhotos();
 			if (photos.length == 0) {
 				throw new IllegalArgumentException(
-						"No photos available for the requested date " + DATE + ". You may want to try other dates.");
+						"No photos available for the requested date " + randomDate.toString() + ". You may want to try other dates.");
 			}
 			randomPhoto = photos[RANDOM.nextInt(photos.length)];
 			LOGGER.debug("Random photo picked :: {}", randomPhoto);
