@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+  <base target = "_blank">
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Mars Rover Photos</title>
@@ -34,14 +35,16 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>imgSrc</th>
+              <th>Photo</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td th:text="${photo.id}"></td>
               <td>
-                <a th:href="${photo.imgSrc}" th:text="${photo.earthDate}" target="_blank" />
+                <a th:href="${photo.imgSrc}">
+                  <img alt="Mars rover photo" th:src="${photo.imgSrc}" width="500" height="300" />
+                </a>
               </td>
             </tr>
           </tbody>
