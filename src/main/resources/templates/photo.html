@@ -36,6 +36,7 @@
             <tr>
               <th>ID</th>
               <th>Photo</th>
+              <th>Earth Date</th>
             </tr>
           </thead>
           <tbody>
@@ -46,6 +47,7 @@
                   <img alt="Mars rover photo" th:src="${photo.imgSrc}" width="500" height="300" />
                 </a>
               </td>
+              <td th:text="${photo.earthDate}"></td>
             </tr>
           </tbody>
         </table>
